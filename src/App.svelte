@@ -1,28 +1,18 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { createWebflowElement } from "./helpers/createWebflowElement";
+  import { patterns } from "./constants/patterns";
+
   let selectedPatternKey: string;
+  let selectedElement: AnyElement | null;
 
-  type Pattern = {
-    name: string;
-    backgroundImage: string;
-  };
+  onMount(async () => {
+    webflow.subscribe("selectedelement", setSelectedElement);
+  });
 
-  const patterns: { [key: string]: Pattern } = {
-    "pattern-1": {
-      name: "Horizontal",
-      backgroundImage:
-        "linear-gradient(0deg, rgb(0, 0, 0) 50%, rgb(255, 255, 255) 50%)",
-    },
-    "pattern-2": {
-      name: "Vertical",
-      backgroundImage:
-        "linear-gradient(to right, rgb(0,0,0), rgb(0,0,0) 5px, rgb(255,255,255) 5px, rgb(255,255,255))",
-    },
-    "pattern-3": {
-      name: "Diagonal",
-      backgroundImage:
-        "linear-gradient(45deg, rgb(0, 0, 0) 25%, rgb(255, 255, 255) 25%, rgb(255, 255, 255) 50%, rgb(0, 0, 0) 50%, rgb(0, 0, 0) 75%, rgb(255, 255, 255) 75%, rgb(255, 255, 255))",
-    },
-  };
+  function setSelectedElement(element: AnyElement | null) {
+    selectedElement = element;
+  }
 
   function handlePatternButtonClick(event: Event, patternKey: string) {
     const pattern = patterns[patternKey];
@@ -38,6 +28,18 @@
 </script>
 
 <main>
+  <section>
+    <div class="container">
+      {#if selectedElement}
+        <p>{selectedElement.type}</p>
+        <button
+          on:click={() =>
+            createWebflowElement(selectedElement, selectedPatternKey, patterns)}
+          >Create Div</button
+        >
+      {/if}
+    </div>
+  </section>
   <section class="section-pattern">
     <div class="container">
       <div class="pattern-list">
