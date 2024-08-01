@@ -1,19 +1,15 @@
-import type { Pattern } from "../types";
 import { setElementStyles } from "./setElementStyles";
+import { selectedElement, selectedPatternKey } from "../stores";
+import { get } from "svelte/store";
 
-export async function createWebflowElement(
-  selectedElement: AnyElement | null,
-  selectedPatternKey: string,
-  patterns: Record<string, Pattern>
-) {
-  if (!selectedElement) return;
+export async function createWebflowElement() {
+  const selEl = get(selectedElement);
+  const selPatternKey = get(selectedPatternKey);
 
-  const blankDiv = await selectedElement.after(webflow.elementPresets.DivBlock);
-  const divWithStyles = await setElementStyles(
-    blankDiv,
-    selectedPatternKey,
-    patterns
-  );
+  if (!selEl) return;
+
+  const blankDiv = await selEl.after(webflow.elementPresets.DivBlock);
+  const divWithStyles = await setElementStyles(blankDiv);
 
   console.log(`${JSON.stringify(divWithStyles)}`);
 }

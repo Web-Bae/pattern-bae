@@ -2,22 +2,21 @@
   import { onMount } from "svelte";
   import { createWebflowElement } from "./helpers/createWebflowElement";
   import { patterns } from "./constants/patterns";
-
-  let selectedPatternKey: string;
-  let selectedElement: AnyElement | null;
+  import { selectedElement } from "./stores";
+  import { selectedPatternKey } from "./stores";
 
   onMount(async () => {
     webflow.subscribe("selectedelement", setSelectedElement);
   });
 
   function setSelectedElement(element: AnyElement | null) {
-    selectedElement = element;
+    $selectedElement = element;
   }
 
   function handlePatternButtonClick(event: Event, patternKey: string) {
     const pattern = patterns[patternKey];
 
-    selectedPatternKey = patternKey;
+    $selectedPatternKey = patternKey;
 
     const patternSection =
       document.querySelector<HTMLDivElement>(".section-pattern");
@@ -30,13 +29,9 @@
 <main>
   <section>
     <div class="container">
-      {#if selectedElement}
-        <p>{selectedElement.type}</p>
-        <button
-          on:click={() =>
-            createWebflowElement(selectedElement, selectedPatternKey, patterns)}
-          >Create Div</button
-        >
+      {#if $selectedElement}
+        <p>{$selectedElement.type}</p>
+        <button on:click={createWebflowElement}>Create Div</button>
       {/if}
     </div>
   </section>
