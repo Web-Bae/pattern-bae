@@ -1,9 +1,13 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
   import { createWebflowElement } from "./helpers/createWebflowElement";
-  import { patterns } from "./constants/patterns";
-  import { selectedElement } from "./stores";
-  import { selectedPatternKey } from "./stores";
+  import {
+    selectedElement,
+    selectedPatternKey,
+    colorOne,
+    colorTwo,
+    patterns,
+  } from "./stores";
 
   onMount(async () => {
     webflow.subscribe("selectedelement", setSelectedElement);
@@ -14,7 +18,7 @@
   }
 
   function handlePatternButtonClick(event: Event, patternKey: string) {
-    const pattern = patterns[patternKey];
+    const pattern = $patterns[patternKey];
 
     $selectedPatternKey = patternKey;
 
@@ -24,11 +28,27 @@
     patternSection.style.backgroundImage = pattern.backgroundImage;
     patternSection.style.backgroundSize = "10px 10px";
   }
+
+  function handleColorOneSelect(event: Event) {
+    const color = (event.target as HTMLInputElement).value;
+    $colorOne = color;
+  }
+
+  function handleColorTwoSelect(event: Event) {
+    const color = (event.target as HTMLInputElement).value;
+    $colorTwo = color;
+  }
+
+  afterUpdate(() => {
+    console.log($colorOne);
+  });
 </script>
 
 <main>
   <section>
     <div class="container">
+      <input type="color" on:change={handleColorOneSelect} />
+      <input type="color" on:change={handleColorTwoSelect} />
       {#if $selectedElement}
         <p>{$selectedElement.type}</p>
         <button on:click={createWebflowElement}>Create Div</button>
@@ -38,16 +58,16 @@
   <section class="section-pattern">
     <div class="container">
       <div class="pattern-list">
-        {#each Object.keys(patterns) as patternKey}
+        {#each Object.keys($patterns) as patternKey}
           <button
             class="pattern-button"
             on:click={(event) => handlePatternButtonClick(event, patternKey)}
           >
             <div
               class="pattern-box"
-              style="background-image: {patterns[patternKey].backgroundImage}"
+              style="background-image: {$patterns[patternKey].backgroundImage}"
             >
-              <h2 class="pattern-name">{patterns[patternKey].name}</h2>
+              <h2 class="pattern-name">{$patterns[patternKey].name}</h2>
             </div>
           </button>
         {/each}
