@@ -7,6 +7,7 @@
     colorOne,
     colorTwo,
     patterns,
+    size,
   } from "./stores";
 
   onMount(async () => {
@@ -49,6 +50,7 @@
     <div class="container">
       <input type="color" on:change={handleColorOneSelect} />
       <input type="color" on:change={handleColorTwoSelect} />
+      <input type="range" min="0" max="100" bind:value={$size} />
       {#if $selectedElement}
         <p>{$selectedElement.type}</p>
         <button on:click={createWebflowElement}>Create Div</button>
