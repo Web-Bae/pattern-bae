@@ -19,25 +19,35 @@
   }
 
   function handlePatternButtonClick(event: Event, patternKey: string) {
-    const pattern = $patterns[patternKey];
-
     $selectedPatternKey = patternKey;
+    updateBackgroundImage();
+  }
 
+  function updateBackgroundImage() {
+    const pattern = $patterns[$selectedPatternKey];
     const patternSection =
       document.querySelector<HTMLDivElement>(".section-pattern");
     if (!patternSection) return;
     patternSection.style.backgroundImage = pattern.backgroundImage;
-    patternSection.style.backgroundSize = "10px 10px";
+    patternSection.style.backgroundSize = `${$size}px ${$size}px`;
+  }
+
+  function handleSizeChange(event: Event) {
+    const size = (event.target as HTMLInputElement).value;
+    $size = parseInt(size, 10);
+    updateBackgroundImage();
   }
 
   function handleColorOneSelect(event: Event) {
     const color = (event.target as HTMLInputElement).value;
     $colorOne = color;
+    updateBackgroundImage();
   }
 
   function handleColorTwoSelect(event: Event) {
     const color = (event.target as HTMLInputElement).value;
     $colorTwo = color;
+    updateBackgroundImage();
   }
 
   afterUpdate(() => {
@@ -50,7 +60,7 @@
     <div class="container">
       <input type="color" on:change={handleColorOneSelect} />
       <input type="color" on:change={handleColorTwoSelect} />
-      <input type="range" min="0" max="100" bind:value={$size} />
+      <input type="range" min="4" max="80" on:input={handleSizeChange} />
       {#if $selectedElement}
         <p>{$selectedElement.type}</p>
         <button on:click={createWebflowElement}>Create Div</button>
@@ -67,7 +77,8 @@
           >
             <div
               class="pattern-box"
-              style="background-image: {$patterns[patternKey].backgroundImage}"
+              style="background-image: {$patterns[patternKey]
+                .backgroundImage}; background-size: {$size}px {$size}px;"
             >
               <h2 class="pattern-name">{$patterns[patternKey].name}</h2>
             </div>
@@ -105,7 +116,6 @@
     justify-content: end;
     align-items: center;
     aspect-ratio: 1 / 1;
-    background-size: 10px 10px;
     padding-bottom: 0.5rem;
   }
   .pattern-name {
