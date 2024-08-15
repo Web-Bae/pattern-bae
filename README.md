@@ -4,7 +4,7 @@ This repository holds all the code for Web Bae's tutorial on building a Webflow 
 
 ## Course Link
 
-Course Announcement: [Web Bae's Patreon](https://www.patreon.com/webbae)
+Course Announcement: [Web Bae's Patreon](https://www.patreon.com/posts/announcing-apps-110114406?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link)
 
 ## Course Outline
 
