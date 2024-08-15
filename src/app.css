@@ -140,6 +140,61 @@ textarea {
   padding: 2px 4px;
 }
 
+/* Color Pickers */
+
+input[type="color"]::-moz-color-swatch {
+  border: none;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+/* Range Inputs */
+
+input[type="range"] {
+  -webkit-appearance: none; /* Override default appearance */
+  appearance: none;
+  width: 90%; /* Specific width if needed */
+  background: transparent; /* Make default track invisible */
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  border-radius: 1.3px;
+  border: 2px solid rgba(255, 255, 255, 0.13);
+}
+
+/* Styles for the thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 4px; /* Match .slider-thumb width */
+  height: 12px; /* Match .slider-thumb height */
+  background: var(--text1); /* Match .slider-thumb background */
+  cursor: pointer;
+  border-radius: 1px; /* Match .slider-thumb border-radius */
+  transform: translateY(-50%);
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.3) 0px 0px 0px 0.5px; /* Match .slider-thumb box-shadow */
+}
+
+/* Styles for the track */
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  background: var(--border1); /* Match .slider-track background */
+  border-radius: 4px; /* Match .slider-track border-radius */
+}
+
 input:focus,
 textarea:focus {
   border-color: var(--blueBorder);

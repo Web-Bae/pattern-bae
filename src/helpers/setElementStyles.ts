@@ -9,6 +9,8 @@ export async function setElementStyles(newDiv: BlockElement) {
   newStyle.setProperties({
     "background-image": patternsObject[get(selectedPatternKey)].backgroundImage,
     "background-size": `${get(size)}px ${get(size)}px`,
+    "background-position":
+      patternsObject[get(selectedPatternKey)].backgroundPosition || "0 0",
   });
 
   await newDiv.setStyles([newStyle]);
